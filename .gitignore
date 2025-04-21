@@ -3,3 +3,4 @@ table2.sql
 tests/
 .env
 venv/
+src/__pycache__ 
