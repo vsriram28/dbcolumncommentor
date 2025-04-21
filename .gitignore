@@ -4,3 +4,4 @@ tests/
 .env
 venv/
 src/__pycache__ 
+mortgage_tables.sql
