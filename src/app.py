@@ -26,6 +26,17 @@ async def process_tables(tables, business_domain):
         
         Please provide a clear, concise comment for each column explaining its purpose 
         and business significance. Format the response as SQL COMMENT statements.
+
+        IMPORTANT FORMATTING REQUIREMENTS:
+        1. Use ONLY single quotes for SQL COMMENT statements
+        2. Never use apostrophes or contractions in the comment text
+        3. Format each comment exactly as: COMMENT ON COLUMN schema_name.table_name.column_name IS 'comment text';
+        
+        Example format:
+        COMMENT ON COLUMN public.addresses.street_line1 IS 'The primary street address line';
+        COMMENT ON COLUMN public.addresses.street_line2 IS 'The secondary street address line for unit or apartment';
+        
+        Note: Ensure the comment text does not contain any single quotes or apostrophes.
         """
         comments = await gemini.generate_column_comments(prompt)
         all_comments.append(comments)
