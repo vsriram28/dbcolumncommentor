@@ -21,5 +21,5 @@ Simple Python utility to add comments to database columns using table definition
  - Run the python script using python3.
      % streamlit run src/app.py
 
- - Provide the sql file with one or more CREATE TABLE commands with the table definition, and provide the domain this table belongs to.
+ - Provide the sql file with one or more CREATE TABLE commands with the table definition, and provide the domain this table belongs to. A sample sql file (motgage_tables.sql) is provided as an example.
  - The SQL commands that add comments to each of the columns will be produced which can be saved into a file for execution.
