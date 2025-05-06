@@ -18,7 +18,7 @@ Simple Python utility to add comments to database columns using table definition
  - Create a .env file with your Gemini API key and source it:
      GEMINI_API_KEY=your_api_key_here
  
- - Run the python script using python3.
+ - Run the python script using streamlit.
      % streamlit run src/app.py
 
  - Provide the sql file with one or more CREATE TABLE commands with the table definition, and provide the domain this table belongs to. A sample sql file (motgage_tables.sql) is provided as an example.
