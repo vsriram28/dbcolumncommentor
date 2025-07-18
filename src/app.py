@@ -13,28 +13,23 @@ def format_columns(columns):
         for col in columns
     ])
 
-async def process_tables(tables, business_domain):
+async def process_tables(tables, business_domain, db_name):
     all_comments = []
     gemini = GeminiClient()
     for table_info in tables:
         prompt = f"""
-        Given a database table in the {business_domain} domain:
+        Given a database table in the {business_domain} domain for a {db_name} database:
         Table Name: {table_info['table_name']}
         
         Columns:
         {format_columns(table_info['columns'])}
         
         Please provide a clear, concise comment for each column explaining its purpose 
-        and business significance. Format the response as SQL COMMENT statements.
+        and business significance. Format the response as SQL COMMENT statements for {db_name}.
 
         IMPORTANT FORMATTING REQUIREMENTS:
         1. Use ONLY single quotes for SQL COMMENT statements
         2. Never use apostrophes or contractions in the comment text
-        3. Format each comment exactly as: COMMENT ON COLUMN schema_name.table_name.column_name IS 'comment text';
-        
-        Example format:
-        COMMENT ON COLUMN public.addresses.street_line1 IS 'The primary street address line';
-        COMMENT ON COLUMN public.addresses.street_line2 IS 'The secondary street address line for unit or apartment';
         
         Note: Ensure the comment text does not contain any single quotes or apostrophes.
         """
@@ -159,13 +154,17 @@ col1, col2 = st.columns(2)
 
 with col1:
     uploaded_file = st.file_uploader("Choose SQL file", type=['sql'])
+    db_name = st.selectbox(
+        "Select Database",
+        ("PostgreSQL", "MySQL", "Oracle", "SQL Server")
+    )
 
 with col2:
     business_domain = st.text_input("Enter business domain")
 
 # Generate button (Now placed after the global CSS)
 if st.button("Generate Comments"):
-    if uploaded_file is not None and business_domain:
+    if uploaded_file is not None and business_domain and db_name:
         # Read SQL content
         sql_content = uploaded_file.getvalue().decode()
         
@@ -175,11 +174,11 @@ if st.button("Generate Comments"):
         
         # Process tables and display results
         with st.spinner('Generating comments...'):
-            comments = asyncio.run(process_tables(tables, business_domain))
+            comments = asyncio.run(process_tables(tables, business_domain, db_name))
             # Store comments in session state
             st.session_state['comments'] = comments
     else:
-        st.error("Please upload a SQL file and enter the business domain")
+        st.error("Please upload a SQL file, select a database, and enter the business domain")
 
 # --- Always show the text area and buttons if comments exist in session state ---
 if 'comments' in st.session_state:

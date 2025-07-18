@@ -1,3 +1,4 @@
+.gitignoe
 table1.sql
 table2.sql
 tests/
@@ -5,3 +6,5 @@ tests/
 venv/
 src/__pycache__ 
 mortgage_tables.sql
+*.pyc
+__pycache__

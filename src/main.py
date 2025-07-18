@@ -44,12 +44,13 @@ def format_columns(columns):
 if __name__ == "__main__":
     import sys
     
-    if len(sys.argv) != 3:
-        print("Usage: python main.py <sql_file_path> <business_domain>")
+    if len(sys.argv) != 4:
+        print("Usage: python main.py <sql_file_path> <business_domain> <db_name>")
         sys.exit(1)
     
     sql_file_path = sys.argv[1]
     business_domain = sys.argv[2]
+    db_name = sys.argv[3]
     
-    comments = asyncio.run(generate_comments(sql_file_path, business_domain))
+    comments = asyncio.run(generate_comments(sql_file_path, business_domain, db_name))
     print(comments)
